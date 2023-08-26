@@ -1,1 +1,1 @@
-exploring hueristics for the QAP problem. 
+Exploring hueristics for the QAP problem. 
