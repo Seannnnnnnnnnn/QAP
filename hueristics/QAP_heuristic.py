@@ -3,15 +3,17 @@
     be extensions of this base class for automated testing 
 """
 import numpy as np
+from abc import ABC, abstractmethod
 
 
-class QAP_heuristic:
+class QAP_heuristic(ABC):
     def __init__(self, w, d) -> None:
         self.W = w
         self.D = d
 
+    @abstractmethod
+    def solve(self, n_iter: int):
+        pass
+
     def cost(self, X: np.array):
-        return np.sum(self.W * self.D[X][:, X])
-    
-    def solve(n_iters):
-        return
+        return np.sum(self.W * self.D[X][:, X])       
