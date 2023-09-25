@@ -8,8 +8,10 @@ from abc import ABC, abstractmethod
 
 class QAP_heuristic(ABC):
     def __init__(self, w, d) -> None:
+        assert w.shape == d.shape
         self.W = w
         self.D = d
+        self.n = w.shape[0]
 
     @abstractmethod
     def solve(self, n_iter: int):
