@@ -3,6 +3,7 @@
     be extensions of this base class for automated testing 
 """
 import numpy as np
+from time import time
 from abc import ABC, abstractmethod
 
 
@@ -12,6 +13,7 @@ class QAP_heuristic(ABC):
         self.W = w
         self.D = d
         self.n = w.shape[0]
+        self.MAX_CPU_TIME = time()+60   # we only allow for 60secs of CPU time during our tests
 
     @abstractmethod
     def solve(self, n_iter: int):
