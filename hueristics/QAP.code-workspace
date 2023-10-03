@@ -5,5 +5,10 @@
 			"path": ".."
 		}
 	],
-	"settings": {}
+	"settings": {
+		"files.associations": {
+			"*.pl": "prolog",
+			"vector": "cpp"
+		}
+	}
 }
