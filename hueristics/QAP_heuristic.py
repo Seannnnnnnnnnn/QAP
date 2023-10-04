@@ -7,7 +7,7 @@ from time import time
 from abc import ABC, abstractmethod
 
 
-class QAP_heuristic(ABC):
+class QAP_Heuristic(ABC):
     def __init__(self, w, d) -> None:
         assert w.shape == d.shape
         self.W = w
