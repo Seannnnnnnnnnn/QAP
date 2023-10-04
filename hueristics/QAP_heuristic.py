@@ -16,6 +16,10 @@ class QAP_heuristic(ABC):
         self.MAX_CPU_TIME = time()+60   # we only allow for 60secs of CPU time during our tests
 
     @abstractmethod
+    def __str__(self) -> str:
+        pass
+
+    @abstractmethod
     def solve(self, n_iter: int):
         pass
 
