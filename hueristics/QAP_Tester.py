@@ -27,7 +27,8 @@ class QAP_Hueristic_Tester:
         return next(file_it)
 
 
-    def test_hueristic(self, n_iters: int, n_trials: int, tai_only=False, **kwargs):
+    def test_hueristic(self, n_iters: int, n_trials: int, 
+                       tai_only=False, **kwargs):
         """
         tests the hueristic over specified number of trials and iterations. 
         records avg gap, std. dev, max gap, min gap for each trial
@@ -37,7 +38,8 @@ class QAP_Hueristic_Tester:
         with open(results_filename, mode='w') as results:  
             
             writer = csv.writer(results)
-            writer.writerow(['instance', 'avg gap', 'std_dev', 'max gap', 'min gap', 'trials'])
+            writer.writerow(['instance', 'avg gap', 'std_dev', 
+                             'max gap', 'min gap', 'trials'])
 
 
             for filename in os.listdir(self.instance_path): 
