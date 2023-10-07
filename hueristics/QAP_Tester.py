@@ -53,7 +53,7 @@ class QAP_Hueristic_Tester:
                 d = np.array([[next(file_it) for j in range(n)] for i in range(n)])
 
                 # generate an instance 
-                heuristic = self.heuristic(w,d)
+                heuristic = self.heuristic(w,d,**kwargs)
 
                 soln_file = filename[:-4]+'.sln' # this removes the .dat from filename
 
