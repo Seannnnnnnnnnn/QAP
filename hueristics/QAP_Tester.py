@@ -69,7 +69,8 @@ class QAP_Hueristic_Tester:
                         gap = 100*(heuristic.cost(huerstic_soln) - qap_soln)/qap_soln
                         gaps.append(gap)
 
-                    writer.writerow([filename, np.mean(gaps), np.std(gaps), max(gaps), min(gaps), n_trials])
+                    writer.writerow([filename, np.mean(gaps), np.std(gaps), 
+                                     max(gaps), min(gaps), n_trials])
                 
             # any instances without corresponding solution files are deleted
                 except FileNotFoundError:

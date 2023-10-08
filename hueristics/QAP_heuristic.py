@@ -8,12 +8,12 @@ from abc import ABC, abstractmethod
 
 
 class QAP_Heuristic(ABC):
-    def __init__(self, w, d) -> None:
+    def __init__(self, w, d, max_time=60) -> None:
         assert w.shape == d.shape
         self.W = w
         self.D = d
         self.n = w.shape[0]
-        self.MAX_CPU_TIME = time()+60   # we only allow for 60secs of CPU time during our tests
+        self.MAX_CPU_TIME = time()+max_time   # we only allow for 60secs of CPU time during our tests
 
     @abstractmethod
     def __str__(self) -> str:
