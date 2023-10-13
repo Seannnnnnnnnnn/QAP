@@ -16,7 +16,7 @@ class QAP_Hueristic_Tester:
         self.write_to_path = write_to_path
 
 
-    def __read_integers(filename):
+    def __read_integers(self, filename):
         with open(filename) as f:
             return [int(elem) for elem in f.read().split()]
         
@@ -28,12 +28,16 @@ class QAP_Hueristic_Tester:
 
 
     def test_hueristic(self, n_iters: int, n_trials: int, 
-                       tai_only=False, **kwargs):
+                       tai_only=False, bur_only=False, **kwargs):
         """
         tests the hueristic over specified number of trials and iterations. 
         records avg gap, std. dev, max gap, min gap for each trial
         """
-        results_filename = self.write_to_path + str(self.hueristic) + '.csv'
+        results_filename = self.write_to_path + str(self.heuristic)
+
+        if tai_only: results_filename += '-tai.csv'
+        if bur_only: results_filename += '-bur.csv'
+        if not tai_only and not bur_only: filename += '.csvs'
 
         with open(results_filename, mode='w') as results:  
             
@@ -46,6 +50,7 @@ class QAP_Hueristic_Tester:
                 
                  # skips any instances that are not Tai
                 if tai_only and 'tai' not in filename: continue    
+                if bur_only and 'bur' not in filename: continue
 
                 file_it = iter(self.__read_integers(self.instance_path+filename))
 
@@ -65,7 +70,7 @@ class QAP_Hueristic_Tester:
                     qap_soln = self.__open_solution(self.soln_path+soln_file)
 
                     for _ in range(n_trials): 
-                        huerstic_soln, _ = heuristic.solve(n_iters)
+                        huerstic_soln = heuristic.solve(n_iters)
                         gap = 100*(heuristic.cost(huerstic_soln) - qap_soln)/qap_soln
                         gaps.append(gap)
 
