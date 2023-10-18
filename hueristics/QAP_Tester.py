@@ -39,7 +39,8 @@ class QAP_Hueristic_Tester:
         if bur_only: results_filename += '-bur.csv'
         if not tai_only and not bur_only: filename += '.csvs'
 
-        with open(results_filename, mode='w') as results:  
+        # we open with append mode, to avoid wiping an entire DB of results
+        with open(results_filename, mode='a') as results:  
             
             writer = csv.writer(results)
             writer.writerow(['instance', 'avg gap', 'std_dev', 
