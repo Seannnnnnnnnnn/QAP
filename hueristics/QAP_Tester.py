@@ -60,9 +60,6 @@ class QAP_Hueristic_Tester:
                 w = np.array([[next(file_it) for j in range(n)] for i in range(n)])
                 d = np.array([[next(file_it) for j in range(n)] for i in range(n)])
 
-                # generate an instance 
-                heuristic = self.heuristic(w,d,**kwargs)
-
                 soln_file = filename[:-4]+'.sln' # this removes the .dat from filename
 
                 try:
@@ -71,6 +68,7 @@ class QAP_Hueristic_Tester:
                     qap_soln = self.__open_solution(self.soln_path+soln_file)
 
                     for _ in range(n_trials): 
+                        heuristic = self.heuristic(w,d,**kwargs)
                         huerstic_soln = heuristic.solve(n_iters)
                         gap = 100*(heuristic.cost(huerstic_soln) - qap_soln)/qap_soln
                         gaps.append(gap)
