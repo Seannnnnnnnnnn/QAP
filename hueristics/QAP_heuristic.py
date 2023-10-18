@@ -20,7 +20,7 @@ class QAP_Heuristic(ABC):
         pass
 
     @abstractmethod
-    def solve(self, n_iter: int):
+    def solve(self, n_iter: int) -> np.array:
         pass
 
     def cost(self, X: np.array):
