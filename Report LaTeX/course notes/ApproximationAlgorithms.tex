@@ -1,0 +1,205 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsbsy}
+\usepackage{fixltx2e}
+\usepackage{amsfonts}
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\usepackage{xcolor}
+\usepackage{color} 
+\usepackage{hyperref}
+\usepackage{tcolorbox}
+\usepackage{mathrsfs}
+\usepackage{amssymb}
+\usepackage{appendix}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{fancyhdr}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{minted}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\def\code#1{\texttt{#1}}
+\usepackage{amsthm}
+\newtheorem{definition}{Definition}
+\newtheorem{exercise}{Exercise}
+\newtheorem{example}{Example}
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+\usepackage[colorinlistoftodos,prependcaption]{todonotes}
+
+
+\begin{document}
+
+%TITLE PAGE
+\begin{titlepage}
+   \begin{center}
+       \vspace*{1cm}
+
+       \textbf{\texttt{MAST90098 Course Notes}}
+
+       \vspace{0.5cm}
+        Approximation Algorithms \& Heuristics
+            
+       \vspace{1.5cm}
+
+        
+       \textbf{Author(s):} Sean Conlon \\
+
+       \vfill
+        
+     
+       \includegraphics[width=0.3\textwidth]{images/uomlogo.png}
+            
+       School of Mathematics \& Statistics \\
+       The University of Melbourne\\
+            
+   \end{center}
+\end{titlepage}
+
+%%TABLE OF CONTENTS%%
+\tableofcontents
+\thispagestyle{empty}
+\clearpage
+\setcounter{page}{1}
+
+
+
+\newpage
+\section{Complexity Classes}
+
+\newpage
+\subsection{Exercises}
+
+\begin{exercise}[Tutorial 1.1]
+    Using a reduction from the Hamiltonian Cycle Problem, show that the Travelling Salesman Decision Problem is NP-complete.
+\end{exercise}
+\textit{Solution.} We must show that $TSP$ can be verified in Polynomial time, and then show that $HC \leq_P TSP$ to deduce that $TSP$ is NP-complete. We assume the \textit{Decision Problem} version of the TSP, where input is a weighted Graph, $G(V,E,w)$ and $k\in\mathbb{N}$. The problem is to decide whether there exists a tour of $V$ of total weight $k$.  \\
+\\
+\textit{$\text{TSP}\in P$}. A solution to the TSP corresponds to a tour of vertices in the Graph. To verify a solution, one checks that all vertices are visited, and that there exists an edge between each successive vertex in the solution. This requires $O(n)$ time to verify, assuming that edges can be checked in $O(1)$ time. Finally, one verifies that the sum of edges along the tour equals to $k$, which is also $O(n)$\\
+\\
+\textit{$TSP\in$ NP-Hard}. Consider the following transformation from Hamiltonian Cycle to TSP; let $G(V,E)$ be input to the Hamiltonian Cycle problem and $K(V,E^*,w)$ be an complete graph on $V$. Define the weight function $w: E^*\rightarrow\mathbb{R}$ as follows: 
+\[ w(e) = 
+    \begin{cases} 
+      0 & e \in E \\
+      1 & e \in E^* - E
+   \end{cases}
+\]
+Such a reduction can be made in Polynomial time, as it corresponds to adding at most $O(n^2)$ edges to $E$. The reduction is valid, as there exists a Hamiltonian Cycle on $G$ if and only if there exists a TSP tour on $K$ with cost 0.
+
+
+\begin{exercise}[Tutorial 1.2] The s-t Hamiltonian Path problem on $G(V,E)$ is to determine if there is a Hamiltonian Path between vertices $s,t\in V$. Show that Hamiltonian Cycle is reducable to the s-t Hamiltonian Path. 
+\end{exercise}
+\begin{proof}
+    Consider the following reduction; let $G(V,E)$ be input to the Hamiltonian Cycle problem, choose $v\in V$ arbitrarily and add create new vertex set $V^\prime = V \cup \{v^\prime\}$. For vertex $u$ incident with $v$ in $G$, add an edge $uv^\prime$ to edge set $E$. It now follows that there exists a Hamiltonian Path in $G(V,E)$ if and only if, there exists a $v$-$v^\prime$ Hamiltonian Path in $G(V^\prime, E^\prime)$. \\
+    \\
+    The reduction is clearly polynomial as there is at most $O(n)$ edges to check and add to th edge set $E^\prime$.\\
+\end{proof}
+
+
+\begin{exercise}[Tutorial 1.3]
+    Show that the problem of determining whether or not an arbitrary input graph has a spanning tree in which the degree of every vertex is at most $\delta\geq2$ is NP-Complete.
+\end{exercise}
+\begin{proof}
+    We can clearly verify a solution in polynomial time by checking that all vertices form a spanning tree, and that each vertex has degree at most $\delta$. \\
+    \\
+    We now show that the problem is NP-Hard via polynomial time reduction from Hamiltonian Path.
+\end{proof}
+\textbf{Note:} A good technique for whenever looking at a problem involving some restriction on the degree of vertices is to look for a reduction to Hamiltonian Paths.
+
+
+\begin{example}[Tutorial 1.4]
+\end{example}
+
+
+\begin{example}[Tutorial 1.5] Show that the decision problem variation of Clique is NP-Complete
+\end{example}
+\begin{proof}
+    The decision problem is, given a graph $G(V,E)$ and $k\in\mathbb{N}$ determine whether there is a $k$-Clique in $G(V,E)$. Clearly, Clique can be verified in polynomial time, as it corresponds to checking $k = O(n^2)$ edges in $E$. To show Clique is NP-Hard, we show there exists a polynomial time reduction between
+\end{proof}
+
+
+\newpage
+\section{Languages}
+Computes cannot directly solve problems, they read an input string and produce an output string. Therefore, in order to formalise the concept of an optimisation problem, we require definitions that relate to sets of strings over an alphabet. 
+
+\begin{definition}[Alphabet, Word, Length, Language]
+An \textbf{alphabet} $\Sigma$ is a non-empty, finite set of symbols. A \textbf{word} over $\Sigma$ is any finite sequence of symbols. The set of all words over the alphabet is denoted by $\Sigma^*$. The length of a word $w\in\Sigma^*$ is denoted by $|w|$ and is given by the number of symbols it contains. \\
+\\
+For any alphabet $\Sigma$, every set $L\subseteq\Sigma^*$ is called a \textbf{language} over $\Sigma$.
+\end{definition}
+
+In a formal sense, words are used to encode data. Since the complexity of algorithms are measured in \textit{input length}, the first step of a formal complexity analysis is to fix the the alphabet and data representation; as such encodings define a length of every input. This now positions us to formally define a decision problem as follows; 
+
+\begin{definition}[Decision Problem]
+    A Decision Problem is a tuple $(L,\Sigma)$ where $\Sigma$ is an alphabet and $L\subset\Sigma^*$ a language over $\Sigma$. An algorithm $A$ solves (or decides) the problem $(L,\Sigma)$ if for every $x\in\Sigma^*$ 
+        $$A(x) = 1 \iff x\in L$$
+\end{definition}
+
+\begin{example}[Hamiltonian Cycle as a Decision Problem]
+    The Hamiltonian Cycle decision problem task as input a graph, and determines whether there is a cyclic tour of all vertices such such that no edge is traversed twice. We can represent this formally as follows:
+    \begin{align*}
+        & \Sigma = \{0,1,\#\} \\
+        & L = \{\textit{all words that correspond to graphs with a Hamiltonian Cycle}\}
+    \end{align*}
+    Here, we represent graphs as adjacency matrices of $\{0,1\}$ with the symbol \# to denote a new row in the matrix.
+\end{example}
+
+The essence of this definition is that algorithms for Decision Problems really just \textit{language recognition} algorithms for the language of \texttt{YES} instances for the decision problem. \\
+\\
+Now we can formalise the notion of an \textit{optimisation problem}. Recall that such problems specify a set of constraints, which unambiguously determine a set\footnote{in these notes, we assume that this is a finite set} $\mathcal{M}(x)$ of feasible solutions for every problem instance $x$. The objective of the optimisation problem is to determine some element of $\mathcal{M}(x)$ that \textit{best} among all solutions in $\mathcal{M}(x)$.
+
+\begin{definition}[Optimisation Problem]
+    An optimisation problem is a 5-tuple $U = (\Sigma, L, \mathcal{M}, cost, goal)$ where 
+    \begin{itemize}
+        \item $\Sigma$ is the alphabet of $U$
+        \item $L$ is the language of feasible instance of $U$
+        \item $\mathcal{M}$ is a function from $L$ to $2^{\Sigma^*}$ and for every $x\in L, \mathcal{M}(x)$ is called the set of feasible solutions to $x$
+        \item cost is the cost function that for every $u,$ where $u\in\mathcal{M}(x)$ for some $x\in L$ assigned a non-negative real number cost $cost(u)$
+        \item goal$\in\{\min, \max\}$
+    \end{itemize}
+\end{definition}
+
+\begin{definition}[Consistent Algorithm] An algorithm $\mathcal{A}$ is consistent for $U$ if for every $x\in L$ the output $\mathcal{A}(x)\in\mathcal{M}(x)$
+\end{definition}
+
+Complexity classes like $P, NP$ define the notion of \textit{hardness} for decision problems. How does one define such a notion for optimisation problems? In particular, for a given optimisation problem $U$, how \textit{hard} is it to find an exact solution to $U$ where by \textit{hardness} we refer to the number of steps required to determine an optimal solution $U$, relative to input size. \\
+\\
+As it turns out, we can't directly define these sorts of classes for Optimisation problems as we can for Decision problems. Our idea for developing a theory leverages on the fact that some decision problems can be expressed as optimsiation problems (such as TSP and Knapsack). We'll require the following definitions for this
+
+\begin{definition}[NPO] The class $NPO$ is the class of optimisation problems where  $U = (\Sigma, L, \mathcal{M}, cost, goal)\in NPO$ if 
+\begin{itemize}
+    \item $L \ in P$
+    \item there exists a polynomial $p$ such that 
+    \begin{itemize}
+         \item $\forall x\in L, y \in \mathcal{M}(x)$ we have $|y|\leq p(|x|)$
+        \item there exists a polynomial time algorithm that for every $y\in \Sigma^*$ and $x\in L$ such that $|y|\leq p(|x|)$ decides where $y\in\mathcal{M}(x)$.
+    \end{itemize}
+    \item the cost function is computable in polynomial time. 
+\end{itemize}
+\end{definition}
+Informally, $NPO$ is the class of optimisation problems where we can efficiently verify whether a string is an instance of the problem, the sizes of the solutions are polynomial in the size of the problem instances, and once can verify whether a solution is feasible in polynomial time. Finally, $NPO$ restricts the class of optimisation problems to those that have efficient-to-compute cost functions. 
+
+\begin{example}[Max-Cut is NPO]
+    
+\end{example}
+
+
+
+\newpage
+\section{Approximation Algorithms}
+We consider problems in the space $NP \backslash P$ for which there is no known polynomial time algorithm, and exact methods become rapidly infeasible for even small problem instances. The goal is to develop approximate methods, for which we guarantee the maximum discrepancy between the solution generated by the algorithm, and the optimal. 
+
+\begin{definition}[Performance Approximation Ratio]
+    Let $U$ be an optimisation problem, $A$ be a consistent algorithm for $U$, and $x\in U$ be an input instance. The performance ratio of $A$ is given by 
+    $$P_A(x) = \frac{cost(A(x))}{Opt(x)}$$
+\end{definition}
+
+\newpage
+\bibliographystyle{unsrt}%Used BibTeX style is unsrt
+\bibliography{sample}
+
+
+\end{document}
